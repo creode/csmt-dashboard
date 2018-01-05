@@ -1,0 +1,10 @@
+active: true
+container_name: dashboard_php
+ports:
+    - '3001:80'
+environment:
+    VIRTUAL_HOST: .dashboard.docker
+volumes:
+    - '../src:/var/www/html'
+image: 'creode/php-apache:7.0'
+links: {  }
