@@ -12,6 +12,12 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        'project_name'
+        'project_name',
+        'live_url',
+        'test_url',
+        'live_credentials_user',
+        'live_credentials_pass',
+        'test_credentials_user',
+        'test_credentials_pass'
     ];
 }
