@@ -12,8 +12,11 @@
                 <table>
                     <tr>
                         <td style="width: 40%"><strong>{{ $project->project_name }}</strong></td>
-                        <td style="width: 10%; text-align: right"><strong>Status:&nbsp;</strong></td>
-                        <td class="status">OK</td>
+                        <td style="width: 10%; text-align: right"><strong>Live Status:&nbsp;</strong></td>
+                        <td class="status" style="width: 10%;">OK</td>
+                        <td style="width: 10%; text-align: right"><strong>Test Status:&nbsp;</strong></td>
+                        <td class="status-test" style="width: 10%;">OK</td>
+                        <td style="width: 20%"></td>
                     </tr>
                 </table>
             </div>

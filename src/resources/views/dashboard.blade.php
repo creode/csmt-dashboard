@@ -142,7 +142,7 @@
 
                 var notice = $('<div class="notice">')
 
-                if (true || fileDate.getTime() < threshold.getTime()) {
+                if (fileDate.getTime() < threshold.getTime()) {
                     $(item).addClass('status-warning');
                     notice.html('Expired');
                 } else {
@@ -160,6 +160,9 @@
 
             var warnings = $('.status-warning', element);
 
+            // TODO: This doesn't know what the environment is, so can't update the correct status.
+            // TODO: This doesn't allow for multiple requests per environment (which we already have!)
+            // so it will only show the status of the latest call that was made
             if (warnings.length > 0) {
                 $('.status', summary).html('WARNING');
                 $(table).prependTo($(table).parent());
