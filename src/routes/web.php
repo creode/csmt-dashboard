@@ -11,9 +11,6 @@
 |
 */
 
-use Illuminate\Http\Request;
-use App\Rules\AuthenticateCsmt;
-
 
 Auth::routes();
 
@@ -24,187 +21,16 @@ Route::get('/', function () {
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/dashboard', function () {
-    $projects = \App\Project::all();
 
-    return view('dashboard', ['projects' => $projects]);
-});
+Route::get('/dashboard', 'ProjectController@dashboard');
+Route::get('/project/add', 'ProjectController@add');
+Route::post('/project/add', 'ProjectController@create');
+Route::get('/project/delete/{project}', 'ProjectController@delete');
 
+Route::get('/tool/version/{project}/{environment}', 'ToolController@version');
+Route::get('/tool/database/snapshot/{project}/{environment}', 'ToolController@dbSnapshot');
+Route::get('/tool/database/info/{project}/{environment}', 'ToolController@dbSnapshotInfo');
+Route::get('/tool/media/snapshot/{project}/{environment}', 'ToolController@mediaSnapshot');
+Route::get('/tool/media/info/{project}/{environment}', 'ToolController@mediaSnapshotInfo');
+Route::get('/tool/update/{project}/{environment}', 'ToolController@update');
 
-
-
-
-Route::get('/add-project', function () {
-    return view('add_project');
-});
-
-Route::post('/add-project', function (Request $request) {
-    $credentials = [];
-
-    $data = $request->validate([
-        'project_name' => 'required|max:255',
-        'live_url' => [
-            'required',
-            'url',
-            'max:255',
-            new AuthenticateCsmt(
-                $credentials,
-                'live_credentials_user',
-                'live_credentials_pass'
-            )
-        ],
-        'test_url' => [
-            'sometimes',
-            'nullable',
-            'url',
-            'max:255',
-            new AuthenticateCsmt(
-                $credentials,
-                'test_credentials_user',
-                'test_credentials_pass'
-            )
-        ],
-    ]);
-
-    $data = array_merge($data, $credentials);
-
-    $link = tap(new App\Project($data))->save();
-
-    return redirect('/dashboard');
-});
-
-
-Route::get('/project/version/{project}/{environment}', function (App\Project $project, $environment) {
-
-    $envUrl = $environment . '_url';
-    $envUser = $environment . '_credentials_user';
-    $envPass = $environment . '_credentials_pass';
-
-    if (
-        !isset($project->$envUrl) ||
-        !isset($project->$envUser) ||
-        !isset($project->$envPass)
-    ) {
-        return 'Could not find url/user/pass details for ' . $environment . ' environment';
-    }
-
-    $client = new \GuzzleHttp\Client();
-
-    try {
-        $res = $client->get(
-            $project->$envUrl,
-            array(
-                'stream' => false,
-                'auth' => [
-                    $project->$envUser, 
-                    $project->$envPass
-                ]
-            )
-        );
-        
-        return strip_tags($res->getBody());
-    } catch (\Exception $e) {
-        switch($e->getCode()) {
-            case 401:
-                return 'Authentication Failed';
-                break;
-            case 404:
-                return 'Not found';
-                break;
-            default:
-                return 'Error: '. $e->getMessage();
-                break;
-        }
-    }
-})->where('project', '[0-9]+');
-
-
-Route::get('/project/database/snapshot/{project}/{environment}', function (App\Project $project, $environment) {
-
-    $envUrl = $environment . '_url';
-    $envUser = $environment . '_credentials_user';
-    $envPass = $environment . '_credentials_pass';
-
-    if (
-        !isset($project->$envUrl) ||
-        !isset($project->$envUser) ||
-        !isset($project->$envPass)
-    ) {
-        return 'Could not find url/user/pass details for ' . $environment . ' environment';
-    }
-
-    $client = new \GuzzleHttp\Client();
-
-    try {
-        $res = $client->get(
-            $project->$envUrl . '?command=snapshot:database',
-            array(
-                'stream' => false,
-                'auth' => [
-                    $project->$envUser, 
-                    $project->$envPass
-                ]
-            )
-        );
-        
-        return strip_tags($res->getBody());
-    } catch (\Exception $e) {
-        switch($e->getCode()) {
-            case 401:
-                return 'Authentication Failed';
-                break;
-            case 404:
-                return 'Not found';
-                break;
-            default:
-                return 'Error: '. $e->getMessage();
-                break;
-        }
-    }
-})->where('project', '[0-9]+');
-
-
-
-Route::get('/project/database/info/{project}/{environment}', function (App\Project $project, $environment) {
-
-    $envUrl = $environment . '_url';
-    $envUser = $environment . '_credentials_user';
-    $envPass = $environment . '_credentials_pass';
-
-    if (
-        !isset($project->$envUrl) ||
-        !isset($project->$envUser) ||
-        !isset($project->$envPass)
-    ) {
-        return 'Could not find url/user/pass details for ' . $environment . ' environment';
-    }
-
-    $client = new \GuzzleHttp\Client();
-
-    try {
-        $res = $client->get(
-            $project->$envUrl . '?command=snapshot:database:info',
-            array(
-                'stream' => false,
-                'auth' => [
-                    $project->$envUser, 
-                    $project->$envPass
-                ]
-            )
-        );
-        
-        return strip_tags($res->getBody());
-    } catch (\Exception $e) {
-        switch($e->getCode()) {
-            case 401:
-                return 'Authentication Failed';
-                break;
-            case 404:
-                return 'Not found';
-                break;
-            default:
-                return 'Error: '. $e->getMessage();
-                break;
-        }
-    }
-})->where('project', '[0-9]+');

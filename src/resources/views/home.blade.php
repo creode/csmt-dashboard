@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -18,10 +17,15 @@
                         You ain't logged in boyo!
                     @else
                         You are logged in!
+
+                        <ul>
+                            <li>
+                                <a href="/dashboard">Go to the dashboard</a>
+                            </li>
+                        </ul>
                     @endguest
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

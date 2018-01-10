@@ -12,9 +12,11 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 
     <!-- js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{{ asset('js/dashboard.js') }}"></script>
 </head>
 <body>
     <div id="app">
@@ -32,7 +34,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Creode Dashboard') }}
+                        <img src="{{ config('app.logo', 'http://creode.co.uk/sites/all/themes/creode/images/logo.svg') }}" alt="{{ config('app.logo', 'Creode Dashboard') }}" />
                     </a>
                 </div>
 
@@ -74,10 +76,13 @@
             </div>
         </nav>
 
-        @yield('content')
+        <div class="container">
+            @yield('content')
+        </div>
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('page-js')
 </body>
 </html>

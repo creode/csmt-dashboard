@@ -1,2 +1,0 @@
-<pre>{"message":"This is the response!","user":"5a5177c31be18","pass":"5a5177c31bcfc","success":true}
-</pre>
