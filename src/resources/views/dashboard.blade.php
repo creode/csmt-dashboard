@@ -111,19 +111,48 @@
                 return;
             }
 
+            if (fileInfo.error) {
+                $(element).html(fileInfo.message);
+                return;
+            }
+
             var snapshots = $('<ul class="snapshots tiles">');
             $(snapshots).appendTo(element);
 
             fileInfo.files.forEach(function(file) {
-                var fileDate = new Date(file.date);  
+                var warnings = [];
 
-                var fileDateElement = $('<div class="project-file-date">').html(
-                    fileDate.toLocaleDateString("en-GB") + ' @ ' + fileDate.toLocaleTimeString("en-GB")
-                );
+                if (typeof file.date === 'undefined' || !file.date) {
+                    var fileDateElement = $('<div class="project-file-date">').html('N/A');
+
+                    warnings.push('Date not specified');
+                } else {
+                    var fileDate = new Date(file.date.date); 
+
+                    var fileDateElement = $('<div class="project-file-date">').html(
+                        fileDate.toLocaleDateString("en-GB") + ' @ ' + fileDate.toLocaleTimeString("en-GB")
+                    );
+
+                    // TODO: Use cron job to schedule backups and check against this date
+                    // what this is actually doing now is just getting the last Monday at 00:00:00
+                    var threshold = new Date();
+                    threshold.setDate(threshold.getDate() - threshold.getDay() + 1);
+                    threshold.setHours(0,0,0,0);
+
+                    if (fileDate.getTime() < threshold.getTime()) {
+                        warnings.push('Expired');
+                    }
+                }
 
                 var fileSizeElement = $('<div class="project-file-size">').html(
                     fileSizeToString(file.size)
                 );
+
+                if (file.size < 0) {
+                    warnings.push('File not found');
+                } else if (file.size == 0) {
+                    warnings.push('Empty File');
+                }
 
                 var item = $('<li class="project-file-info">').html(
                     '<h5>' + file.name + '</h5>'
@@ -133,18 +162,11 @@
                 $(fileDateElement).appendTo(item);
                 $(item).appendTo(snapshots);
 
+                var notice = $('<div class="notice">');
 
-                // TODO: Use cron job to schedule backups and check against this date
-                // what this is actually doing now is just getting the last Monday at 00:00:00
-                var threshold = new Date();
-                threshold.setDate(threshold.getDate() - threshold.getDay() + 1);
-                threshold.setHours(0,0,0,0);
-
-                var notice = $('<div class="notice">')
-
-                if (fileDate.getTime() < threshold.getTime()) {
+                if (warnings.length > 0) {
                     $(item).addClass('status-warning');
-                    notice.html('Expired');
+                    notice.html(warnings.join(' and '));
                 } else {
                     $(item).addClass('status-ok');
                     notice.html('Up to date');
