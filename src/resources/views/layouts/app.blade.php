@@ -46,6 +46,7 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
+                        @yield('additional-nav')
                         <!-- Authentication Links -->
                         @guest
                             <li><a href="{{ route('login') }}">Login</a></li>
@@ -79,6 +80,8 @@
         <div class="container">
             @yield('content')
         </div>
+
+        @yield('post-content')
     </div>
 
     <!-- Scripts -->

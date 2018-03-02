@@ -1,3 +1,13 @@
+items.push({
+    "id": "{{ $project->id }}",
+    "name": "{{ $project->project_name }}",
+    "live_url": "{{ $project->live_url }}",
+    "test_url": "{{ $project->test_url }}"
+});
+
+
+
+/**
 <table class="project-dashboard-table">
     <tr class="heading">
         <td colspan="3">
@@ -26,3 +36,4 @@
     @include('dashboard.environment', array('project' => $project, 'environment' => 'live', 'tool_url' => $project->live_url))
     @include('dashboard.environment', array('project' => $project, 'environment' => 'test', 'tool_url' => $project->test_url))
 </table>
+**/
