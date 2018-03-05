@@ -91,8 +91,15 @@
                     takeMediaBackup.appendTo(media);
                 break;
                 case 'test':
-                    // <a href="#">Restore test DB backup</a>
-                    // <a href="#">Restore test media backup</a>
+                    var pullDBBackup = $('<a class="project-action" href="/tool/database/pull/' + item.id + '">Pull latest DB backups</a>');
+                    pullDBBackup.appendTo(db);
+                    var restoreDBBackup = $('<a class="project-action" href="/tool/database/restore/' + item.id + '">Restore DB backups</a>');
+                    restoreDBBackup.appendTo(db);
+
+                    var pullMediaBackup = $('<a class="project-action" href="/tool/media/pull/' + item.id + '">Pull latest media backups</a>');
+                    pullMediaBackup.appendTo(media);
+                    var restoreMediaBackup = $('<a class="project-action" href="/tool/media/restore/' + item.id + '">Restore media backups</a>');
+                    restoreMediaBackup.appendTo(media);
                 break;
             }
             var updateTool = $('<a class="project-action" href="/tool/update/' + item.id + '/' + environment + '">Update tool</a>');

@@ -30,7 +30,11 @@ Route::get('/project/delete/{project}', 'ProjectController@delete');
 Route::get('/tool/version/{project}/{environment}', 'ToolController@version');
 Route::get('/tool/database/snapshot/{project}/{environment}', 'ToolController@dbSnapshot');
 Route::get('/tool/database/info/{project}/{environment}', 'ToolController@dbSnapshotInfo');
+Route::get('/tool/database/pull/{project}', 'ToolController@dbSnapshotPull');
+Route::get('/tool/database/restore/{project}', 'ToolController@dbSnapshotRestore');
 Route::get('/tool/media/snapshot/{project}/{environment}', 'ToolController@mediaSnapshot');
 Route::get('/tool/media/info/{project}/{environment}', 'ToolController@mediaSnapshotInfo');
+Route::get('/tool/media/pull/{project}', 'ToolController@mediaSnapshotPull');
+Route::get('/tool/media/restore/{project}', 'ToolController@mediaSnapshotRestore');
 Route::get('/tool/update/{project}/{environment}', 'ToolController@update');
 
