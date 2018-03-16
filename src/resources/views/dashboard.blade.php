@@ -73,8 +73,8 @@
         }
 
         function createProjectEnvironment(item, environment) {
-            console.log('Adding ' + environment + ' environment with URL ' + item[environment_url]);
             var environment_url = environment + '_url';
+            console.log('Adding ' + environment + ' environment with URL ' + item[environment_url]);
 
             var wrapper = $('<div>')
                 .addClass('environment')
