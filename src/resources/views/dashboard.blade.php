@@ -80,7 +80,7 @@
             var title = $('<h3>').html(environment);
             var subtitle = $('<h6>').html(item[environment_url]);
             var version = $('<div>').addClass('project-info project-version');
-            var db = $('<div>').addClass('project-info project-db-snapshot-info');
+            var db = $('<div>').addClass('project-info').addClass('project-db-snapshot-info');
             var media = $('<div>').addClass('project-info project-media-snapshot-info');
 
             var actionsVersion = $('<ul>').addClass('project-actions');
