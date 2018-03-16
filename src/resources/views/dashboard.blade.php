@@ -37,6 +37,8 @@
         }
 
         function createProjectMini(item) {
+            console.log('Creating summary item for ' + item.name);
+
             var project = $('<li>')
                 .data('projectid', item.id)
                 .addClass('status-unknown')
@@ -48,6 +50,8 @@
         }
 
         function createProjectDetailed(item, mini) {
+            console.log('Creating detailed item for ' + item.name);
+
             var project = $('<div>')
                 .addClass('project-details')
                 .data('projectid', item.id);
@@ -69,6 +73,7 @@
         }
 
         function createProjectEnvironment(item, environment) {
+            console.log('Adding ' + environment + ' environment with URL ' + item[environment_url]);
             var environment_url = environment + '_url';
 
             var wrapper = $('<div>')
@@ -93,23 +98,30 @@
 
             switch(environment) {
                 case 'live':
+                    console.log('Creating button to take DB backup');
                     var takeDBBackup = $('<li><a class="project-action" href="/tool/database/snapshot/' + item.id + '/' + environment + '">Take DB backup</a></li>');
                     takeDBBackup.appendTo(actionsDB);
+                    console.log('Creating button to take media backup');
                     var takeMediaBackup = $('<li><a class="project-action" href="/tool/media/snapshot/' + item.id + '/' + environment + '">Take media backup</a></li>');
                     takeMediaBackup.appendTo(actionsMedia);
                 break;
                 case 'test':
+                    console.log('Creating button to pull DB backup');
                     var pullDBBackup = $('<li><a class="project-action" href="/tool/database/pull/' + item.id + '">Pull latest DB backups</a></li>');
                     pullDBBackup.appendTo(actionsDB);
+                    console.log('Creating button to restore DB backup');
                     var restoreDBBackup = $('<li><a class="project-action" href="/tool/database/restore/' + item.id + '">Restore DB backups</a></li>');
                     restoreDBBackup.appendTo(actionsDB);
 
+                    console.log('Creating button to pull media backup');
                     var pullMediaBackup = $('<li><a class="project-action" href="/tool/media/pull/' + item.id + '">Pull latest media backups</a></li>');
                     pullMediaBackup.appendTo(actionsMedia);
+                    console.log('Creating button to restore media backup');
                     var restoreMediaBackup = $('<li><a class="project-action" href="/tool/media/restore/' + item.id + '">Restore media backups</a></li>');
                     restoreMediaBackup.appendTo(actionsMedia);
                 break;
             }
+            console.log('Creating button to update tool');
             var updateTool = $('<li><a class="project-action" href="/tool/update/' + item.id + '/' + environment + '">Update tool</a></li>');
             updateTool.appendTo(actionsVersion);
 
