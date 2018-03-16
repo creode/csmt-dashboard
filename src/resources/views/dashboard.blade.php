@@ -171,6 +171,7 @@
                 }
             }).done(function(data) {
                 callback(data, element);
+            }).always(function(data) {
                 doneLoading(loadingElement);
                 doneLoading(mini);
                 updateStatus(mini);
@@ -267,7 +268,7 @@
             try {
                 var fileInfo = JSON.parse(data);
             } catch (e) {
-                $(element).html(data);
+                $('<div>').html(data).appendTo(element);
                 return;
             }
 
