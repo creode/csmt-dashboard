@@ -153,12 +153,20 @@ div.project-details div.project-info {
     margin:10px;
 }
 
-div.project-details a.project-action {
+div.project-details ul.project-actions {
     position: absolute;
     top: -10px;
     right: -10px;
-    background: black;
     padding: 5px;
+}
+
+div.project-details ul.project-actions li {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+div.project-details ul.project-actions li a {
+    background: black;
 }
 
 ul#projects-summary li {

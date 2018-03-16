@@ -36,12 +36,69 @@ class AuthenticateCsmt implements Rule
         // just makes things a bit easier to read..
         $url = $value;
 
+        if (isset($this->credentials[$this->usernameField]) && isset($this->credentials[$this->passwordField])) {
+            return $this->handshakeWithCredentials($url);    
+        } else {
+            return $this->handshakeWithoutCredentials($url);
+        }
+    }
+
+
+    private function handshakeWithCredentials($url) {
         $client = new \GuzzleHttp\Client();
 
         try {
-            $res = $client->get($url . '?command=handshake', array('stream' => false));
-            // echo $res->getStatusCode();
-            // echo $res->getBody();
+            $requestParams = array(
+                'stream' => false,
+                'auth' => [
+                    $this->credentials[$this->usernameField], 
+                    $this->credentials[$this->passwordField]
+                ]   
+            );
+
+            $res = $client->get(
+                $url . '?command=version',
+                $requestParams
+            );
+
+            $body = json_decode(strip_tags($res->getBody()));
+
+            if ($res->getStatusCode() !== 200) {
+                throw new \Exception($body, $res->getStatusCode());
+            }
+        } catch (\Exception $e) {
+            switch($e->getCode()) {
+                case 401:
+                    $this->error = 'Authentication - Failed. Are your credentials correct? ' . $e->getMessage();
+                    break;
+                case 404:
+                    $this->error = 'Authentication - Not found';
+                    break;
+                default:
+                    $this->error = 'Authentication - Error: '. $e->getMessage();
+                    break;
+            }
+            return false;
+        }
+
+        return true;
+    }
+
+
+
+
+    private function handshakeWithoutCredentials($url) {
+        $client = new \GuzzleHttp\Client();
+
+        try {
+            $requestParams = array(
+                'stream' => false
+            );
+
+            $res = $client->get(
+                $url . '?command=handshake',
+                $requestParams
+            );
 
             $body = json_decode(strip_tags($res->getBody()));
 
@@ -59,13 +116,13 @@ class AuthenticateCsmt implements Rule
         } catch (\Exception $e) {
             switch($e->getCode()) {
                 case 401:
-                    $this->error = 'Authentication Failed. Tool must be public accessible to perform handshake. Is authentication already setup?';
+                    $this->error = 'Authentication - Failed. Tool must be public accessible to perform handshake. Is authentication already setup? ' . $e->getMessage();
                     break;
                 case 404:
-                    $this->error = 'Not found';
+                    $this->error = 'Authentication - Not found';
                     break;
                 default:
-                    $this->error = 'Error: '. $e->getMessage();
+                    $this->error = 'Authentication - Error: '. $e->getMessage();
                     break;
             }
             return false;

@@ -83,27 +83,35 @@
             var db = $('<div>').addClass('project-info project-db-snapshot-info');
             var media = $('<div>').addClass('project-info project-media-snapshot-info');
 
+            var actionsVersion = $('<ul>').addClass('project-actions');
+            var actionsDB = $('<ul>').addClass('project-actions');
+            var actionsMedia = $('<ul>').addClass('project-actions');
+
+            actionsVersion.appendTo(version);
+            actionsDB.appendTo(db);
+            actionsMedia.appendTo(media);
+
             switch(environment) {
                 case 'live':
-                    var takeDBBackup = $('<a class="project-action" href="/tool/database/snapshot/' + item.id + '/' + environment + '">Take DB backup</a>');
-                    takeDBBackup.appendTo(db);
-                    var takeMediaBackup = $('<a class="project-action" href="/tool/media/snapshot/' + item.id + '/' + environment + '">Take media backup</a>');
-                    takeMediaBackup.appendTo(media);
+                    var takeDBBackup = $('<li><a class="project-action" href="/tool/database/snapshot/' + item.id + '/' + environment + '">Take DB backup</a></li>');
+                    takeDBBackup.appendTo(actionsDB);
+                    var takeMediaBackup = $('<li><a class="project-action" href="/tool/media/snapshot/' + item.id + '/' + environment + '">Take media backup</a></li>');
+                    takeMediaBackup.appendTo(actionsMedia);
                 break;
                 case 'test':
-                    var pullDBBackup = $('<a class="project-action" href="/tool/database/pull/' + item.id + '">Pull latest DB backups</a>');
-                    pullDBBackup.appendTo(db);
-                    var restoreDBBackup = $('<a class="project-action" href="/tool/database/restore/' + item.id + '">Restore DB backups</a>');
-                    restoreDBBackup.appendTo(db);
+                    var pullDBBackup = $('<li><a class="project-action" href="/tool/database/pull/' + item.id + '">Pull latest DB backups</a></li>');
+                    pullDBBackup.appendTo(actionsDB);
+                    var restoreDBBackup = $('<li><a class="project-action" href="/tool/database/restore/' + item.id + '">Restore DB backups</a></li>');
+                    restoreDBBackup.appendTo(actionsDB);
 
-                    var pullMediaBackup = $('<a class="project-action" href="/tool/media/pull/' + item.id + '">Pull latest media backups</a>');
-                    pullMediaBackup.appendTo(media);
-                    var restoreMediaBackup = $('<a class="project-action" href="/tool/media/restore/' + item.id + '">Restore media backups</a>');
-                    restoreMediaBackup.appendTo(media);
+                    var pullMediaBackup = $('<li><a class="project-action" href="/tool/media/pull/' + item.id + '">Pull latest media backups</a></li>');
+                    pullMediaBackup.appendTo(actionsMedia);
+                    var restoreMediaBackup = $('<li><a class="project-action" href="/tool/media/restore/' + item.id + '">Restore media backups</a></li>');
+                    restoreMediaBackup.appendTo(actionsMedia);
                 break;
             }
-            var updateTool = $('<a class="project-action" href="/tool/update/' + item.id + '/' + environment + '">Update tool</a>');
-            updateTool.appendTo(version);
+            var updateTool = $('<li><a class="project-action" href="/tool/update/' + item.id + '/' + environment + '">Update tool</a></li>');
+            updateTool.appendTo(actionsVersion);
 
 
             title.appendTo(wrapper);

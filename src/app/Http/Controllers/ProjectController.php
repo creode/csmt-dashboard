@@ -48,7 +48,16 @@ class ProjectController extends Controller
      */
     public function create(Request $request)
     {
-        $credentials = [];
+        $testCredentials = [
+            'test_credentials_user' => $request->input('test_credentials_user'),
+            'test_credentials_pass' => $request->input('test_credentials_pass')
+        ];
+        $liveCredentials = [
+            'live_credentials_user' => $request->input('live_credentials_user'),
+            'live_credentials_pass' => $request->input('live_credentials_pass')
+        ];
+
+        // TODO: Validate any credentials that were entered
 
         $data = $request->validate([
             'project_name' => 'required|max:255',
@@ -57,7 +66,7 @@ class ProjectController extends Controller
                 'url',
                 'max:255',
                 new AuthenticateCsmt(
-                    $credentials,
+                    $liveCredentials,
                     'live_credentials_user',
                     'live_credentials_pass'
                 )
@@ -68,14 +77,14 @@ class ProjectController extends Controller
                 'url',
                 'max:255',
                 new AuthenticateCsmt(
-                    $credentials,
+                    $testCredentials,
                     'test_credentials_user',
                     'test_credentials_pass'
                 )
             ],
         ]);
 
-        $data = array_merge($data, $credentials);
+        $data = array_merge($data, $liveCredentials, $testCredentials);
 
         $link = tap(new Project($data))->save();
 
