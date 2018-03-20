@@ -394,6 +394,8 @@
                         var oData = $.parseJSON(data);
                         if (oData.success) {
                             toastr.success(projectName + ' : ' + oData.message);
+                        } else if (oData.info) {
+                            toastr.info(projectName + ' : ' + oData.message);
                         } else {
                             toastr.error(projectName + ' : ' + oData.message);
                         }
