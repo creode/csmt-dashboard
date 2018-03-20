@@ -23,6 +23,8 @@
 
         items.forEach(addProject);
 
+        addActionClicks();
+
 
 
 
@@ -37,10 +39,11 @@
         }
 
         function createProjectMini(item) {
-            console.log('Creating summary item for ' + item.name);
+            console.debug('Creating summary item for ' + item.name);
 
             var project = $('<li>')
                 .data('projectid', item.id)
+                .data('projectname', item.name)
                 .addClass('status-unknown')
                 .html(item.name);
 
@@ -50,11 +53,12 @@
         }
 
         function createProjectDetailed(item, mini) {
-            console.log('Creating detailed item for ' + item.name);
+            console.debug('Creating detailed item for ' + item.name);
 
             var project = $('<div>')
                 .addClass('project-details')
-                .data('projectid', item.id);
+                .data('projectid', item.id)
+                .data('projectname', item.name);
 
             var overlay = $('<div>').addClass('overlay');
             $(overlay).appendTo(project);
@@ -74,7 +78,7 @@
 
         function createProjectEnvironment(item, environment) {
             var environment_url = environment + '_url';
-            console.log('Adding ' + environment + ' environment with URL ' + item[environment_url]);
+            console.debug('Adding ' + environment + ' environment with URL ' + item[environment_url]);
 
             var wrapper = $('<div>')
                 .addClass('environment')
@@ -98,30 +102,30 @@
 
             switch(environment) {
                 case 'live':
-                    console.log('Creating button to take DB backup');
+                    console.debug('Creating button to take DB backup');
                     var takeDBBackup = $('<li><a class="project-action" href="/tool/database/snapshot/' + item.id + '/' + environment + '">Take DB backup</a></li>');
                     takeDBBackup.appendTo(actionsDB);
-                    console.log('Creating button to take media backup');
+                    console.debug('Creating button to take media backup');
                     var takeMediaBackup = $('<li><a class="project-action" href="/tool/media/snapshot/' + item.id + '/' + environment + '">Take media backup</a></li>');
                     takeMediaBackup.appendTo(actionsMedia);
                 break;
                 case 'test':
-                    console.log('Creating button to pull DB backup');
+                    console.debug('Creating button to pull DB backup');
                     var pullDBBackup = $('<li><a class="project-action" href="/tool/database/pull/' + item.id + '">Pull latest DB backups</a></li>');
                     pullDBBackup.appendTo(actionsDB);
-                    console.log('Creating button to restore DB backup');
+                    console.debug('Creating button to restore DB backup');
                     var restoreDBBackup = $('<li><a class="project-action" href="/tool/database/restore/' + item.id + '">Restore DB backups</a></li>');
                     restoreDBBackup.appendTo(actionsDB);
 
-                    console.log('Creating button to pull media backup');
+                    console.debug('Creating button to pull media backup');
                     var pullMediaBackup = $('<li><a class="project-action" href="/tool/media/pull/' + item.id + '">Pull latest media backups</a></li>');
                     pullMediaBackup.appendTo(actionsMedia);
-                    console.log('Creating button to restore media backup');
+                    console.debug('Creating button to restore media backup');
                     var restoreMediaBackup = $('<li><a class="project-action" href="/tool/media/restore/' + item.id + '">Restore media backups</a></li>');
                     restoreMediaBackup.appendTo(actionsMedia);
                 break;
             }
-            console.log('Creating button to update tool');
+            console.debug('Creating button to update tool');
             var updateTool = $('<li><a class="project-action" href="/tool/update/' + item.id + '/' + environment + '">Update tool</a></li>');
             updateTool.appendTo(actionsVersion);
 
@@ -269,11 +273,14 @@
                 var fileInfo = JSON.parse(data);
             } catch (e) {
                 $('<div>').html(data).appendTo(element);
+                toastr.error('Error populating snapshot info, see console for log data');
+                console.log(data);
                 return;
             }
 
             if (fileInfo.error) {
                 $(element).html(fileInfo.message);
+                toastr.success('Error when populating snapshot info');
                 return;
             }
 
@@ -342,19 +349,59 @@
 
             var detailed = getDetailsByProject(projectId);
 
-            $(element).removeClass('status-warning')
-                .removeClass('status-ok')
-                .removeClass('status-unknown');
+            var projectName = $(detailed).data('projectname');
 
             if ($('.status-warning', detailed).length > 0) {
-                $(element).addClass('status-warning');
+                if (!$(element).hasClass('status-warning')) {
+                    $(element).addClass('status-warning');
+
+                    toastr.error(projectName + ' transitioned to "warning"');
+                }
+
+                $(element).removeClass('status-ok').removeClass('status-unknown');
             } else if ($('.status-ok', detailed).length > 0) {
-                $(element).addClass('status-ok');
+                if (!$(element).hasClass('status-ok')) {
+                    $(element).addClass('status-ok');
+
+                    toastr.success(projectName + ' transitioned to "ok"');
+                }
+
+                $(element).removeClass('status-warning').removeClass('status-unknown');
             } else {
-                $(element).addClass('status-unknown');
+                if (!$(element).hasClass('status-unknown')) {
+                    $(element).addClass('status-unknown');
+
+                    toastr.info(projectName + ' transitioned to "unknown"');
+                }
+
+                $(element).removeClass('status-warning').removeClass('status-ok');
             }
+        }
 
+        function addActionClicks() {
+            $('a.project-action').click(function() {
+                var projectInfoDiv = $(this).closest('div.project-info');
+                var projectDetailsDiv = $(this).closest('div.project-details');
+                var projectName = $(projectDetailsDiv).data('projectname');
 
+                toolRequest(
+                    $(projectDetailsDiv).data('projectid'),
+                    this.href,
+                    this,
+                    projectInfoDiv,
+                    function(data, element) {
+                        console.log(data);
+                        var oData = $.parseJSON(data);
+                        if (oData.success) {
+                            toastr.success(projectName + ' : ' + oData.message);
+                        } else {
+                            toastr.error(projectName + ' : ' + oData.message);
+                        }
+                    }
+                );
+
+                return false;
+            });
         }
 
 
@@ -390,7 +437,7 @@
 
             setInterval(function() {
                 refreshDetails();
-            }, 5000); // how often do we auto refresh?
+            }, 10000); // how often do we auto refresh?
         });        
     </script>
 @stop
