@@ -272,7 +272,8 @@
             try {
                 var fileInfo = JSON.parse(data);
             } catch (e) {
-                $('<div>').html(data).appendTo(element);
+                $('div.snapshot-error', element).remove();
+                $('<div>').addClass('snapshot-error').html(data).appendTo(element);
                 toastr.error('Error populating snapshot info, see console for log data');
                 console.log(data);
                 return;
