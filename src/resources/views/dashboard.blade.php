@@ -281,7 +281,7 @@
 
             if (fileInfo.error) {
                 $(element).html(fileInfo.message);
-                toastr.success('Error when populating snapshot info');
+                toastr.error('Error when populating snapshot info');
                 return;
             }
 
@@ -342,6 +342,8 @@
                 }
 
                 $(notice).appendTo(item);
+
+                refreshDetails($(element).closest('div.project-details'));
             });
         }
 
@@ -410,18 +412,23 @@
 
 
         // number of projects to refresh at a time
-        var segmentSize = 10;
+        var segmentSize = 5;
 
         var totalProjects = $('#projects-detailed > div').length;
         var indexLow = 0;
         var indexHigh = segmentSize;
 
-        function refreshDetails() {
+        function refreshNextSegmentDetails() {
             var projectsToRefresh = $('#projects-detailed > div')
                 .filter(function(index) {
                     return (index + 1) <= indexHigh && (index + 1) > indexLow;
                 });
 
+            refreshDetails(projectsToRefresh);
+        }
+
+
+        function refreshDetails(projectsToRefresh) { 
             $('.project-version', projectsToRefresh).each(populateVersion);
             $('.project-db-snapshot-info', projectsToRefresh).each(populateDbSnapshotInfo);
             $('.project-media-snapshot-info', projectsToRefresh).each(populateMediaSnapshotInfo);
@@ -436,10 +443,11 @@
         }
 
         $(document).ready(function() {
-            refreshDetails();
+            // refresh all projects when we load the page
+            refreshDetails($('#projects-detailed > div'));
 
             setInterval(function() {
-                refreshDetails();
+                refreshNextSegmentDetails();
             }, 10000); // how often do we auto refresh?
         });        
     </script>
