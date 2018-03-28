@@ -410,7 +410,7 @@
 
 
         // number of projects to refresh at a time
-        var segmentSize = 1;
+        var segmentSize = 10;
 
         var totalProjects = $('#projects-detailed > div').length;
         var indexLow = 0;
