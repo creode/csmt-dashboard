@@ -425,13 +425,6 @@
                 });
 
             refreshDetails(projectsToRefresh);
-        }
-
-
-        function refreshDetails(projectsToRefresh) { 
-            $('.project-version', projectsToRefresh).each(populateVersion);
-            $('.project-db-snapshot-info', projectsToRefresh).each(populateDbSnapshotInfo);
-            $('.project-media-snapshot-info', projectsToRefresh).each(populateMediaSnapshotInfo);
 
             if (indexHigh >= totalProjects) {
                 indexLow = 0;
@@ -440,6 +433,13 @@
                 indexLow = indexHigh;
                 indexHigh = indexHigh + segmentSize;
             }
+        }
+
+
+        function refreshDetails(projectsToRefresh) { 
+            $('.project-version', projectsToRefresh).each(populateVersion);
+            $('.project-db-snapshot-info', projectsToRefresh).each(populateDbSnapshotInfo);
+            $('.project-media-snapshot-info', projectsToRefresh).each(populateMediaSnapshotInfo);
         }
 
         $(document).ready(function() {
