@@ -78,6 +78,12 @@
 
         function createProjectEnvironment(item, environment) {
             var environment_url = environment + '_url';
+
+            if (!item[environment_url]) {
+                console.debug('No ' + environment + ' url found for project ' + item.id);
+                return;
+            }
+
             console.debug('Adding ' + environment + ' environment with URL ' + item[environment_url]);
 
             var wrapper = $('<div>')
@@ -342,8 +348,6 @@
                 }
 
                 $(notice).appendTo(item);
-
-                refreshDetails($(element).closest('div.project-details'));
             });
         }
 
@@ -397,6 +401,7 @@
                         var oData = $.parseJSON(data);
                         if (oData.success) {
                             toastr.success(projectName + ' : ' + oData.message);
+                            refreshDetails($(projectDetailsDiv));
                         } else if (oData.info) {
                             toastr.info(projectName + ' : ' + oData.message);
                         } else {
@@ -448,7 +453,7 @@
 
             setInterval(function() {
                 refreshNextSegmentDetails();
-            }, 10000); // how often do we auto refresh?
+            }, 30000); // how often do we auto refresh?
         });        
     </script>
 @stop
