@@ -16,7 +16,7 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('project_name')->unique();
-            $table->string('live_url');
+            $table->string('live_url')->nullable();
             $table->string('test_url')->nullable();
             $table->string('live_credentials_user')->nullable();
             $table->string('live_credentials_pass')->nullable();
