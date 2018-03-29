@@ -62,7 +62,8 @@ class ProjectController extends Controller
         $data = $request->validate([
             'project_name' => 'required|max:255',
             'live_url' => [
-                'required',
+                'sometimes',
+                'nullable',
                 'url',
                 'max:255',
                 new AuthenticateCsmt(
