@@ -64,6 +64,17 @@ class ToolController extends Controller
     }
 
     /**
+     * Downloads the latest DB snapshot(s)
+     * @param Project $project 
+     * @param string $environment 
+     * @return string
+     */
+    public function dbSnapshotDownload(Project $project, $environment)
+    {
+        return $this->makeToolReqest($project, $environment, 'snapshot:database:download');
+    }
+
+    /**
      * Restores the DB snapshot(s) to the test environment
      * @param Project $project 
      * @return string
@@ -104,6 +115,17 @@ class ToolController extends Controller
     public function mediaSnapshotPull(Project $project)
     {
         return $this->makeToolReqest($project, 'test', 'snapshot:filesystem:pull');
+    }
+
+    /**
+     * Downloads the latest media snapshot(s)
+     * @param Project $project 
+     * @param string $environment 
+     * @return string
+     */
+    public function mediaSnapshotDownload(Project $project, $environment)
+    {
+        return $this->makeToolReqest($project, $environment, 'snapshot:filesystem:download');
     }
 
     /**

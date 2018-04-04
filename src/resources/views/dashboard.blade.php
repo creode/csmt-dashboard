@@ -23,6 +23,8 @@
 
         items.forEach(addProject);
 
+        toastr.options.progressBar = true;
+
         addActionClicks();
 
 
@@ -111,9 +113,15 @@
                     console.debug('Creating button to take DB backup');
                     var takeDBBackup = $('<li><a class="project-action" href="/tool/database/snapshot/' + item.id + '/' + environment + '">Take DB backup</a></li>');
                     takeDBBackup.appendTo(actionsDB);
+                    console.debug('Creating button to download DB backup');
+                    var downloadDBBackup = $('<li><a class="project-action" href="/tool/database/download/' + item.id + '/' + environment + '">Download DB backup</a></li>');
+                    downloadDBBackup.appendTo(actionsDB);
                     console.debug('Creating button to take media backup');
                     var takeMediaBackup = $('<li><a class="project-action" href="/tool/media/snapshot/' + item.id + '/' + environment + '">Take media backup</a></li>');
                     takeMediaBackup.appendTo(actionsMedia);
+                    console.debug('Creating button to download media backups');
+                    var downloadMediaBackup = $('<li><a class="project-action" href="/tool/media/download/' + item.id + '/' + environment + '">Download media backup</a></li>');
+                    downloadMediaBackup.appendTo(actionsMedia);
                 break;
                 case 'test':
                     console.debug('Creating button to pull DB backup');
@@ -122,6 +130,9 @@
                     console.debug('Creating button to restore DB backup');
                     var restoreDBBackup = $('<li><a class="project-action" href="/tool/database/restore/' + item.id + '">Restore DB backups</a></li>');
                     restoreDBBackup.appendTo(actionsDB);
+                    console.debug('Creating button to download DB backup');
+                    var downloadDBBackup = $('<li><a class="project-action" href="/tool/database/download/' + item.id + '/' + environment + '">Download DB backup</a></li>');
+                    downloadDBBackup.appendTo(actionsDB);
 
                     console.debug('Creating button to pull media backup');
                     var pullMediaBackup = $('<li><a class="project-action" href="/tool/media/pull/' + item.id + '">Pull latest media backups</a></li>');
@@ -129,6 +140,9 @@
                     console.debug('Creating button to restore media backup');
                     var restoreMediaBackup = $('<li><a class="project-action" href="/tool/media/restore/' + item.id + '">Restore media backups</a></li>');
                     restoreMediaBackup.appendTo(actionsMedia);
+                    console.debug('Creating button to download media backups');
+                    var downloadMediaBackup = $('<li><a class="project-action" href="/tool/media/download/' + item.id + '/' + environment + '">Download media backup</a></li>');
+                    downloadMediaBackup.appendTo(actionsMedia);
                 break;
             }
             console.debug('Creating button to update tool');
@@ -362,7 +376,7 @@
                 if (!$(element).hasClass('status-warning')) {
                     $(element).addClass('status-warning');
 
-                    toastr.error(projectName + ' transitioned to "warning"');
+                    toastr.error('transitioned to "warning"', projectName);
                 }
 
                 $(element).removeClass('status-ok').removeClass('status-unknown');
@@ -370,7 +384,7 @@
                 if (!$(element).hasClass('status-ok')) {
                     $(element).addClass('status-ok');
 
-                    toastr.success(projectName + ' transitioned to "ok"');
+                    toastr.success('transitioned to "ok"', projectName);
                 }
 
                 $(element).removeClass('status-warning').removeClass('status-unknown');
@@ -378,7 +392,7 @@
                 if (!$(element).hasClass('status-unknown')) {
                     $(element).addClass('status-unknown');
 
-                    toastr.info(projectName + ' transitioned to "unknown"');
+                    toastr.info('transitioned to "unknown"', projectName);
                 }
 
                 $(element).removeClass('status-warning').removeClass('status-ok');
@@ -400,12 +414,45 @@
                         console.log(data);
                         var oData = $.parseJSON(data);
                         if (oData.success) {
-                            toastr.success(projectName + ' : ' + oData.message);
+
+                            if (oData.links) {
+                                var linkHTML = '';
+
+                                Object.keys(oData.links).forEach(function(key){
+                                    linkHTML = linkHTML + '<strong>' + key + '</strong> : <a href="' + oData.links[key] + '">download</a><br/>';
+                                });
+
+                                toastr.success(
+                                    linkHTML,
+                                    projectName,
+                                    {
+                                      "closeButton": true,
+                                      "debug": false,
+                                      "newestOnTop": false,
+                                      "progressBar": false,
+                                      "positionClass": "toast-top-left",
+                                      "preventDuplicates": false,
+                                      "onclick": null,
+                                      "showDuration": "300",
+                                      "hideDuration": "1000",
+                                      "timeOut": 0,
+                                      "extendedTimeOut": 0,
+                                      "showEasing": "swing",
+                                      "hideEasing": "linear",
+                                      "showMethod": "fadeIn",
+                                      "hideMethod": "fadeOut",
+                                      "tapToDismiss": false
+                                    }
+                                );
+                            } else {
+                                toastr.success(oData.message, projectName);
+                            }
+
                             refreshDetails($(projectDetailsDiv));
                         } else if (oData.info) {
-                            toastr.info(projectName + ' : ' + oData.message);
+                            toastr.info(oData.message, projectName);
                         } else {
-                            toastr.error(projectName + ' : ' + oData.message);
+                            toastr.error(oData.message, projectName);
                         }
                     }
                 );
