@@ -343,8 +343,11 @@
                     warnings.push('Empty File');
                 }
 
+
+
                 var item = $('<li class="project-file-info">').html(
-                    '<h5>' + file.name + '</h5>'
+                    '<h6>' + file.name.substr(0, file.name.lastIndexOf('/') + 1) + '</h6>' +
+                    '<h5>' + file.name.substr(file.name.lastIndexOf('/') + 1) + '</h5>'
                 );
 
                 $(fileSizeElement).appendTo(item);
