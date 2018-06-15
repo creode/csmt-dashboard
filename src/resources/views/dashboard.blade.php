@@ -431,7 +431,6 @@
                                       "debug": false,
                                       "newestOnTop": false,
                                       "progressBar": false,
-                                      "positionClass": "toast-top-left",
                                       "preventDuplicates": false,
                                       "onclick": null,
                                       "showDuration": "300",
