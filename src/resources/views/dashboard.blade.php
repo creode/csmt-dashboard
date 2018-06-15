@@ -94,8 +94,7 @@
                 .data('projectid', item.id)
                 .data('url', item[environment_url]);
 
-            var title = $('<h3>').html(environment);
-            var subtitle = $('<h6>').html(item[environment_url]);
+            var title = $('<h4>').html(environment + ' : ' + item[environment_url]);
             var version = $('<div>').addClass('project-info project-version');
             var db = $('<div>').addClass('project-info').addClass('project-db-snapshot-info');
             var media = $('<div>').addClass('project-info project-media-snapshot-info');
@@ -111,47 +110,46 @@
             switch(environment) {
                 case 'live':
                     console.debug('Creating button to take DB backup');
-                    var takeDBBackup = $('<li><a class="project-action" href="/tool/database/snapshot/' + item.id + '/' + environment + '">Take DB backup</a></li>');
+                    var takeDBBackup = $('<li><a class="project-action" href="/tool/database/snapshot/' + item.id + '/' + environment + '"><i class="fas fa-camera"></i></a></li>');
                     takeDBBackup.appendTo(actionsDB);
                     console.debug('Creating button to download DB backup');
-                    var downloadDBBackup = $('<li><a class="project-action" href="/tool/database/download/' + item.id + '/' + environment + '">Download DB backup</a></li>');
+                    var downloadDBBackup = $('<li><a class="project-action" href="/tool/database/download/' + item.id + '/' + environment + '"><i class="fas fa-cloud-download-alt"></i></a></li>');
                     downloadDBBackup.appendTo(actionsDB);
                     console.debug('Creating button to take media backup');
-                    var takeMediaBackup = $('<li><a class="project-action" href="/tool/media/snapshot/' + item.id + '/' + environment + '">Take media backup</a></li>');
+                    var takeMediaBackup = $('<li><a class="project-action" href="/tool/media/snapshot/' + item.id + '/' + environment + '"><i class="fas fa-camera"></i></a></li>');
                     takeMediaBackup.appendTo(actionsMedia);
                     console.debug('Creating button to download media backups');
-                    var downloadMediaBackup = $('<li><a class="project-action" href="/tool/media/download/' + item.id + '/' + environment + '">Download media backup</a></li>');
+                    var downloadMediaBackup = $('<li><a class="project-action" href="/tool/media/download/' + item.id + '/' + environment + '"><i class="fas fa-cloud-download-alt"></i></a></li>');
                     downloadMediaBackup.appendTo(actionsMedia);
                 break;
                 case 'test':
                     console.debug('Creating button to pull DB backup');
-                    var pullDBBackup = $('<li><a class="project-action" href="/tool/database/pull/' + item.id + '">Pull latest DB backups</a></li>');
+                    var pullDBBackup = $('<li><a class="project-action" href="/tool/database/pull/' + item.id + '"><i class="fas fa-sync-alt"></i></a></li>');
                     pullDBBackup.appendTo(actionsDB);
                     console.debug('Creating button to restore DB backup');
-                    var restoreDBBackup = $('<li><a class="project-action" href="/tool/database/restore/' + item.id + '">Restore DB backups</a></li>');
+                    var restoreDBBackup = $('<li><a class="project-action" href="/tool/database/restore/' + item.id + '"><i class="fas fa-sign-in-alt"></i></a></li>');
                     restoreDBBackup.appendTo(actionsDB);
                     console.debug('Creating button to download DB backup');
-                    var downloadDBBackup = $('<li><a class="project-action" href="/tool/database/download/' + item.id + '/' + environment + '">Download DB backup</a></li>');
+                    var downloadDBBackup = $('<li><a class="project-action" href="/tool/database/download/' + item.id + '/' + environment + '"><i class="fas fa-cloud-download-alt"></i></a></li>');
                     downloadDBBackup.appendTo(actionsDB);
 
                     console.debug('Creating button to pull media backup');
-                    var pullMediaBackup = $('<li><a class="project-action" href="/tool/media/pull/' + item.id + '">Pull latest media backups</a></li>');
+                    var pullMediaBackup = $('<li><a class="project-action" href="/tool/media/pull/' + item.id + '"><i class="fas fa-sync-alt"></i></a></li>');
                     pullMediaBackup.appendTo(actionsMedia);
                     console.debug('Creating button to restore media backup');
-                    var restoreMediaBackup = $('<li><a class="project-action" href="/tool/media/restore/' + item.id + '">Restore media backups</a></li>');
+                    var restoreMediaBackup = $('<li><a class="project-action" href="/tool/media/restore/' + item.id + '"><i class="fas fa-sign-in-alt"></i></a></li>');
                     restoreMediaBackup.appendTo(actionsMedia);
                     console.debug('Creating button to download media backups');
-                    var downloadMediaBackup = $('<li><a class="project-action" href="/tool/media/download/' + item.id + '/' + environment + '">Download media backup</a></li>');
+                    var downloadMediaBackup = $('<li><a class="project-action" href="/tool/media/download/' + item.id + '/' + environment + '"><i class="fas fa-cloud-download-alt"></i></a></li>');
                     downloadMediaBackup.appendTo(actionsMedia);
                 break;
             }
             console.debug('Creating button to update tool');
-            var updateTool = $('<li><a class="project-action" href="/tool/update/' + item.id + '/' + environment + '">Update tool</a></li>');
+            var updateTool = $('<li><a class="project-action" href="/tool/update/' + item.id + '/' + environment + '"><i class="fas fa-wrench"></i></a></li>');
             updateTool.appendTo(actionsVersion);
 
 
             title.appendTo(wrapper);
-            subtitle.appendTo(wrapper);
             version.appendTo(wrapper);
             db.appendTo(wrapper);
             media.appendTo(wrapper);
