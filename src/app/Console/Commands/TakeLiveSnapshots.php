@@ -43,7 +43,9 @@ class TakeLiveSnapshots extends Command
         $toolController = new ToolController();
 
         foreach($projects as $project) {
+            echo 'Taking DB snapshot for ' . $project['project_name'] . PHP_EOL;
             $toolController->dbSnapshot($project, 'live');
+            echo 'Taking media snapshot for ' . $project['project_name'] . PHP_EOL;
             $toolController->mediaSnapshot($project, 'live');
         }
     }
