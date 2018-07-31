@@ -43,7 +43,9 @@ class PullSnapshotsToTest extends Command
         $toolController = new ToolController();
 
         foreach($projects as $project) {
+            echo 'Pulling DB snapshot for ' . $project['project_name'] . PHP_EOL;
             $toolController->dbSnapshotPull($project);
+            echo 'Pulling media snapshot for ' . $project['project_name'] . PHP_EOL;
             $toolController->mediaSnapshotPull($project);
         }
     }
