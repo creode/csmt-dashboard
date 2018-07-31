@@ -83,8 +83,8 @@ ul.tiles {
 
 ul.tiles li {
     display: inline-block;
-    width: 200px;
-    margin: 10px;
+    width: 19%;
+    margin: 3px 0 3px 0.8%;
     border: 1px solid #666;
     background-color: white;
     padding: 10px;
@@ -117,7 +117,6 @@ ul.tiles li.status-warning div.notice {
     color: #fa3232;
 }
 
-
 ul.tiles li.status-ok {
     background-color: #2ECC40;
     color: white;
@@ -130,6 +129,17 @@ ul.tiles li.status-ok:hover {
 ul.tiles li.status-ok div.notice {
     color: #3D9970;
     border-top-color: #3D9970;
+}
+
+
+
+ul.snapshots {
+    margin-right: 50px;
+}
+
+ul.snapshots li {
+    width: 100%;
+    margin: 3px 0;
 }
 
 
