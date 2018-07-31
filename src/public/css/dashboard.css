@@ -1,5 +1,5 @@
 body {
-    background-color: #00A9B9;
+    background: #000;
 }
 
 #toast-container {
@@ -16,18 +16,26 @@ div#feed {
     bottom: 0;
     right: 0;
     width: 325px;
-    background-color: #000;
+    background: #222;
+}
+
+div#feed img {
+    position: absolute;
+    bottom: -200px;
+    right: -200px;
+    width: 600px;
+    height: 350px;
 }
 
 .navbar {
-    background-color: #008999;
+    background-color: #FFF;
     position: relative;
     z-index: 1;
 }
 
 .navbar-default .navbar-nav > li > a,
 .navbar-default .navbar-text {
-    color: white;
+    color: #000;
 }
 
 .navbar .navbar-brand img {
