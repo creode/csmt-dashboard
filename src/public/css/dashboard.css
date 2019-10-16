@@ -1,9 +1,20 @@
+@font-face {
+    font-family: InterRegular;
+    src: url(../fonts/Inter-Regular.woff);
+}
+
+@font-face {
+    font-family: InterRegularBold;
+    src: url(../fonts/Inter-Bold.woff);
+}
+
 body {
-    background: #000;
+    background: #FAFAFA;
+    font-family: InterRegular;
 }
 
 #toast-container {
-    top: 65px;
+    top: 15px;
 }
 
 div#app {
@@ -12,11 +23,10 @@ div#app {
 
 div#feed {
     position: fixed;
-    top: 50px;
+    top: 0;
     bottom: 0;
     right: 0;
     width: 325px;
-    background: #222;
 }
 
 div#feed img {
@@ -28,14 +38,65 @@ div#feed img {
 }
 
 .navbar {
-    background-color: #FFF;
+    background-color: #FAFAFA;
     position: relative;
     z-index: 1;
+    border-color: #EBEBEB;
+    color: #000000;
 }
 
-.navbar-default .navbar-nav > li > a,
+.navbar .container {
+    min-height: 50px;
+    padding: 25px 0;
+}
+
+.navbar-header {
+    height: 50px;
+}
+
+.nav-line {
+    height: 106px;
+    margin: -25px 38px 0 38px;
+    display: block;
+    background-color: #EBEBEB;
+    width: 1px;
+    float: left;
+}
+
+.nav-line-sorry {
+    margin: -25px 38px 0 68px;
+}
+
+.navbar .navbar-title {
+    font-size: 22px;
+    float: left;
+    line-height: 50px;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar .navbar-title strong {
+    font-family: InterRegularBold;
+}
+
 .navbar-default .navbar-text {
     color: #FF4136;
+}
+
+.navbar-default .navbar-nav {
+    height: 56px;
+}
+
+.navbar-default .navbar-nav > li > a {
+    background-color: black;
+    border-radius: 5px;
+    padding: 17px 30px;
+    color: white;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+    background-color: black;
+    color: #FAFAFA;
 }
 
 .navbar .navbar-brand img {
@@ -46,6 +107,13 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
+h3.section-title {
+    text-align: left;
+    font-size: 14px;
+    line-height: 16px;
+    color: #666666; 
+    letter-spacing: 1px;
+}
 
 .overlay {
     position: absolute;
@@ -63,12 +131,13 @@ h1, h2, h3, h4, h5, h6 {
     background-position: center right;
     background-repeat: no-repeat;
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 10px;
+    left: 15px;
+    right: 15px;
+    bottom: 10px;
     opacity: 0.7;
     z-index: 2;
+    border-radius: 5px;
 }
 
 
@@ -76,24 +145,34 @@ h1, h2, h3, h4, h5, h6 {
 
 
 ul.tiles {
+    list-style-type: none;
     position: relative;
     padding: 0;
-    margin-bottom: 0;
+    margin: 0 -15px;
+    display: flex; /* or inline-flex */
+    flex-flow: row wrap;
 }
 
 ul.tiles li {
-    display: inline-block;
-    width: 19%;
-    margin: 3px 0 3px 0.8%;
-    border: 1px solid #666;
-    background-color: white;
-    padding: 10px;
+    flex-basis: 25%;
+    padding: 10px 15px;
     font-size: 80%;
     text-align: center;
     cursor: pointer;
 }
 
-ul.tiles li:hover {
+ul.tiles li span {
+    display: block;
+    box-shadow: 0 10px 60px -5px rgba(0,0,0,0.07);
+    border-radius: 5px;
+    background-color: white;
+    font-size: 14px;
+    line-height: 16px;
+    padding: 25px 20px;
+    text-align: left;
+}
+
+ul.tiles li:hover span {
     background-color: #EEE;
 }
 
@@ -104,12 +183,12 @@ ul.tiles div.notice {
     line-height: 3em;
 }
 
-ul.tiles li.status-warning {
+ul.tiles li.status-warning span {
     background-color: #FF4136;
     color: white;
 }
 
-ul.tiles li.status-warning:hover {
+ul.tiles li.status-warning:hover span {
     background-color: #fa3232;
 }
 
@@ -117,12 +196,12 @@ ul.tiles li.status-warning div.notice {
     color: #fa3232;
 }
 
-ul.tiles li.status-ok {
+ul.tiles li.status-ok span {
     background-color: #2ECC40;
     color: white;
 }
 
-ul.tiles li.status-ok:hover {
+ul.tiles li.status-ok:hover span {
     background-color: #3D9970;
 }
 

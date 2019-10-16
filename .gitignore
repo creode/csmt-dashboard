@@ -1,2 +1,3 @@
 db/*.sql
 !db/updates.sql
+.DS_Store

@@ -8,9 +8,12 @@
 
 
 @section('post-content')
-    <ul id="projects-summary" class="tiles">
+    <div class="container">
+        <h3 class="section-title">SITES</h3>
+        <ul id="projects-summary" class="tiles">
 
-    </ul>
+        </ul>
+    </div>
     <div id="projects-detailed"></div>
 @endsection
 
@@ -46,9 +49,12 @@
             var project = $('<li>')
                 .data('projectid', item.id)
                 .data('projectname', item.name)
-                .addClass('status-unknown')
+                .addClass('status-unknown');
+
+            var span = $('<span>')
                 .html(item.name);
 
+            $(span).appendTo(project);
             $(project).appendTo('#projects-summary');
 
             return project;
