@@ -23,7 +23,6 @@
 </head>
 <body>
     <div id="feed">
-        <img src="https://s3-eu-west-2.amazonaws.com/assets.creode.co.uk/wp-content/uploads/2018/06/04091656/block-create1.svg" />
     </div>
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
@@ -45,7 +44,7 @@
 
                     <span class="nav-line">&nbsp;</span>
 
-                    <p class="navbar-title"><strong>Backup</strong>Tool</p>
+                    <p class="navbar-title"><strong>Backup</strong>Dashboard</p>
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">

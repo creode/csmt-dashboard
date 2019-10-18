@@ -9,6 +9,34 @@
 
 @section('post-content')
     <div class="container">
+        <h3 class="section-title">OVERVIEW</h3>
+        <ul id="status-summary" class="tiles stats">
+            <li class="error" id="stats-errors" data-count="0">
+                <div>
+                    <span>Errors</span>
+                    <h3>0</h3>
+                </div>
+            </li>
+            <li class="warning" id="stats-warnings" data-count="0">
+                <div>
+                    <span>Warnings</span>
+                    <h3>0</h3>
+                </div>
+            </li>
+            <li class="clock" id="stats-last-backup-date">
+                <div>
+                    <span>Last Scheduled Backup</span>
+                    <h3>...</h3>
+                </div>
+            </li>
+            <li class="database" id="stats-total-backups" data-count="0">
+                <div>
+                    <span>Total Backups (weekly)</span>
+                    <h3>0</h3>
+                </div>
+            </li>
+        </ul>
+
         <h3 class="section-title">SITES</h3>
         <ul id="projects-summary" class="tiles">
 
@@ -30,11 +58,34 @@
 
         addActionClicks();
 
+        updateLastBackupDate();
 
 
 
 
 
+
+
+
+        function increaseWarningCount() {
+            var newWarningCount = $('#stats-warnings').data('count') + 1;
+            $('#stats-warnings').data('count', newWarningCount);
+            $('#stats-warnings h3').html(newWarningCount);
+        }
+
+        function decreaseWarningCount() {
+            var newWarningCount = $('#stats-warnings').data('count') - 1;
+            $('#stats-warnings').data('count', newWarningCount);
+            $('#stats-warnings h3').html(newWarningCount);
+        }
+
+        function updateLastBackupDate() {
+            var lastBackupDate = new Date();
+            lastBackupDate.setDate(lastBackupDate.getDate() - lastBackupDate.getDay() + 1);
+            lastBackupDate.setHours(0,0,0,0);
+            var displayDate = lastBackupDate.getDate() + '/' + lastBackupDate.getMonth() + '/' + lastBackupDate.getFullYear();
+            $('#stats-last-backup-date h3').html(displayDate);
+        }
 
         function addProject(item) {
             var mini = createProjectMini(item);
@@ -71,10 +122,8 @@
             var overlay = $('<div>').addClass('overlay');
             $(overlay).appendTo(project);
 
-            var closeButton = $('<a class="modal-close" href="#">').html('close').click(function() {
-                $(project).hide();
-                return false;
-            }).appendTo(project);
+            var sectionTitle = $('<h3>').addClass('section-title').html('ANALYTICS');
+            $(sectionTitle).appendTo(project);            
 
             var testEnv = createProjectEnvironment(item, 'test');
             var liveEnv = createProjectEnvironment(item, 'live');
@@ -82,6 +131,11 @@
             $(liveEnv).appendTo(project);
 
             $(project).appendTo('#projects-detailed');
+        }
+
+        function closeProjectDetails() {
+            $('#projects-detailed .project-details:visible').hide();
+            $('.navbar-title').removeClass('navbar-project-open').html('<strong>Backup</strong>Dashboard');
         }
 
         function createProjectEnvironment(item, environment) {
@@ -168,6 +222,10 @@
                 var projectid = $(this).data('projectid');
 
                 var detailed = getDetailsByProject(projectid);
+
+                var projectTitle = $('span', this).html();
+                $('.navbar-title').addClass('navbar-project-open').html('<a href=#"></a>' + projectTitle);
+                $('a', '.navbar-title').click(closeProjectDetails);
                 
                 $(detailed).show();
             });
@@ -291,6 +349,10 @@
         }
 
         function populateSnapshotInfo(data, element) {
+            var theUrl = $(element).siblings('h4').html();
+
+            var previousTotal = $('ul.snapshots > li', element).length;
+
             $('ul.snapshots', element).remove();
 
             try {
@@ -370,6 +432,15 @@
 
                 $(notice).appendTo(item);
             });
+
+            var newTotal = $('ul.snapshots > li', element).length;
+            var adjustment = newTotal - previousTotal;
+            
+            var currentCount = $('#stats-total-backups').data('count');
+
+            var newTotalBackups = currentCount+adjustment;
+            $('#stats-total-backups').data('count', newTotalBackups);
+            $('#stats-total-backups h3').html(newTotalBackups);
         }
 
         function updateStatus(element) {
@@ -384,6 +455,8 @@
                     $(element).addClass('status-warning');
 
                     toastr.error('transitioned to "warning"', projectName);
+
+                    increaseWarningCount();
                 }
 
                 $(element).removeClass('status-ok').removeClass('status-unknown');
@@ -394,6 +467,8 @@
                     toastr.success('transitioned to "ok"', projectName);
                 }
 
+                if ($(element).hasClass('status-warning')) { decreaseWarningCount(); }
+
                 $(element).removeClass('status-warning').removeClass('status-unknown');
             } else {
                 if (!$(element).hasClass('status-unknown')) {
@@ -401,6 +476,8 @@
 
                     toastr.info('transitioned to "unknown"', projectName);
                 }
+
+                if ($(element).hasClass('status-warning')) { decreaseWarningCount(); }
 
                 $(element).removeClass('status-warning').removeClass('status-ok');
             }
@@ -507,6 +584,7 @@
             setInterval(function() {
                 refreshNextSegmentDetails();
             }, 30000); // how often do we auto refresh?
-        });        
+        });
     </script>
 @stop
+

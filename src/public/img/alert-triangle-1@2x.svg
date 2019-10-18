@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="21px" viewBox="0 0 24 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 58 (101010) - https://sketch.com -->
+    <title>2EF9A500-5034-4D6A-B031-361537BA5FB5@2x</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <path d="M3.5,22 C3,22 2.5,21.9 2,21.6 C0.6,20.8 0.1,18.9 0.9,17.5 L9.4,3.3 C9.4,3.3 9.4,3.3 9.4,3.3 C9.6,2.9 10,2.5 10.4,2.3 C11.1,1.9 11.9,1.8 12.7,2 C13.5,2.2 14.1,2.7 14.6,3.4 L23,17.5 C23.3,18 23.4,18.5 23.4,19 C23.4,19.8 23.1,20.6 22.5,21.1 C22,21.7 21.3,22 20.5,22 L3.5,22 Z M11.1,4.4 L2.7,18.5 C2.4,19 2.6,19.6 3.1,19.9 C3.2,20 3.4,20 3.5,20 L20.4,20 C20.7,20 20.9,19.9 21.1,19.7 C21.3,19.5 21.4,19.3 21.4,19 C21.4,18.8 21.4,18.7 21.3,18.5 L12.9,4.4 C12.6,3.9 12,3.8 11.5,4 C11.3,4.1 11.2,4.2 11.1,4.4 Z M13,13 L13,9 C13,8.4 12.6,8 12,8 C11.4,8 11,8.4 11,9 L11,13 C11,13.6 11.4,14 12,14 C12.6,14 13,13.6 13,13 Z M12.7,17.7 C12.9,17.5 13,17.3 13,17 C13,16.9 13,16.7 12.9,16.6 C12.9,16.5 12.8,16.4 12.7,16.3 C12.7,16.3 12.6,16.2 12.5,16.2 C12.4,16.2 12.4,16.1 12.3,16.1 C12.2,16.1 12.2,16.1 12.1,16 C11.9,16 11.7,16 11.5,16.1 C11.4,16.1 11.3,16.2 11.2,16.3 C11.1,16.4 11,16.5 11,16.6 C11,16.7 10.9,16.8 10.9,17 C10.9,17.3 11,17.5 11.2,17.7 C11.4,17.9 11.6,18 11.9,18 C12.3,18 12.5,17.9 12.7,17.7 Z" id="path-1"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="BackUp-Tool---1" transform="translate(-661.000000, -546.000000)">
+            <g id="icon-/-check-icon-/-alert-triangle-1" transform="translate(661.000000, 545.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="Icon-Color-color-/-deep-orange" mask="url(#mask-2)" fill="#FF5722">
+                    <rect id="Shape" x="0" y="0" width="24" height="24"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

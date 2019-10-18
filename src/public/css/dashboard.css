@@ -4,8 +4,8 @@
 }
 
 @font-face {
-    font-family: InterRegularBold;
-    src: url(../fonts/Inter-Bold.woff);
+    font-family: InterSemiBold;
+    src: url(../fonts/Inter-SemiBold.woff);
 }
 
 body {
@@ -27,14 +27,7 @@ div#feed {
     bottom: 0;
     right: 0;
     width: 325px;
-}
-
-div#feed img {
-    position: absolute;
-    bottom: -200px;
-    right: -200px;
-    width: 600px;
-    height: 350px;
+    border-left: 1px solid #EBEBEB;
 }
 
 .navbar {
@@ -76,7 +69,25 @@ div#feed img {
 }
 
 .navbar .navbar-title strong {
-    font-family: InterRegularBold;
+    font-family: InterSemiBold;
+}
+
+.navbar .navbar-project-open {
+    position: relative;
+    padding-left: 50px;
+}
+
+.navbar .navbar-project-open a {
+    background-image: url('/img/arrow-left.svg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .navbar-default .navbar-text {
@@ -103,6 +114,20 @@ div#feed img {
     max-height: 100%;
 }
 
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:focus, 
+.navbar-default .navbar-nav>.open>a:hover {
+    background-color: #000;
+    color: #999;
+}
+
+.dropdown-menu {
+    min-width: 123px;
+    text-align: center;
+}
+
+
+
 h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
@@ -121,14 +146,13 @@ h3.section-title {
     left: 0;
     right: 0;
     bottom: 0;
-    opacity: 0.6;
-    background: white;
+    background: #FAFAFA;
 }
 
 .loading {
     background-color: white;
     background-image: url('/img/loading.gif');
-    background-position: center right;
+    background-position: center center;
     background-repeat: no-repeat;
     position: absolute;
     top: 10px;
@@ -161,7 +185,7 @@ ul.tiles li {
     cursor: pointer;
 }
 
-ul.tiles li span {
+ul.tiles li > span, ul.tiles li > div {
     display: block;
     box-shadow: 0 10px 60px -5px rgba(0,0,0,0.07);
     border-radius: 5px;
@@ -170,6 +194,10 @@ ul.tiles li span {
     line-height: 16px;
     padding: 25px 20px;
     text-align: left;
+}
+
+ul.tiles li > div {
+    padding: 13px 20px;
 }
 
 ul.tiles li:hover span {
@@ -183,13 +211,19 @@ ul.tiles div.notice {
     line-height: 3em;
 }
 
+ul.tiles li span {
+    background-position: 95% center;
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    background-image: url('/img/alert-triangle-1@2x.svg');
+}
+
 ul.tiles li.status-warning span {
-    background-color: #FF4136;
-    color: white;
+    background-image: url('/img/alert-circle-1@2x.svg');
 }
 
 ul.tiles li.status-warning:hover span {
-    background-color: #fa3232;
+    background-color: #EEE;
 }
 
 ul.tiles li.status-warning div.notice {
@@ -197,18 +231,75 @@ ul.tiles li.status-warning div.notice {
 }
 
 ul.tiles li.status-ok span {
-    background-color: #2ECC40;
-    color: white;
+    background-image: url('/img/check-circle-1.svg');
 }
 
 ul.tiles li.status-ok:hover span {
-    background-color: #3D9970;
+    background-color: #EEE;
 }
 
 ul.tiles li.status-ok div.notice {
     color: #3D9970;
     border-top-color: #3D9970;
 }
+
+ul.tiles h3 {
+    text-align: left;
+    font-size: 40px;
+    line-height: 47px;
+    letter-spacing: -2px;
+    color: #000000;
+}
+
+ul.stats li {
+    cursor: default;
+}
+
+ul.stats h3 {
+    font-family: InterSemiBold;
+}
+
+ul.stats li span {
+    color: #666666;
+    font-size: 14px;
+    line-height: 16px;
+    display: block;
+    border-bottom: 1px solid #EBEBEB;
+    padding-bottom: 13px;
+    margin-left: -20px;
+    margin-right: -20px;
+    text-indent: 20px;
+    background-position: 95% -1px;
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+}
+
+ul.stats li:hover span {
+    background-color: white;
+}
+
+ul.stats li.error span {
+    background-image: url('/img/alert-circle.svg');
+}
+
+ul.stats li.warning span {
+    background-image: url('/img/alert-triangle.svg');
+}
+
+ul.stats li.clock span {
+    background-image: url('/img/clock.svg');
+}
+
+ul.stats li.database span {
+    background-image: url('/img/database.svg');
+}
+
+
+
+
+
+
+
 
 
 
@@ -232,9 +323,9 @@ div.project-details {
     display: none;
     position: fixed;
     padding: 10px;
-    top: 0;
+    top: 107px;
     left: 0;
-    bottom: 62px;
+    bottom: 0;
     right: 325px;
 }
 
@@ -254,18 +345,6 @@ div.project-details h4 {
     margin: 0;
     padding: 10px;
     color: white;
-}
-
-div.project-details a.modal-close {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 325px;
-    padding: 20px 0;
-    z-index: 3;
-    background-color: black;
-    color: white;
-    text-align: center;
 }
 
 div.project-details div.project-info {
