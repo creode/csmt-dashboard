@@ -231,7 +231,7 @@ ul.tiles li.status-warning div.notice {
 }
 
 ul.tiles li.status-ok span {
-    background-image: url('/img/check-circle-1.svg');
+    background-image: url('/img/check-circle.svg');
 }
 
 ul.tiles li.status-ok:hover span {
