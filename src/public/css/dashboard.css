@@ -326,7 +326,7 @@ div.project-details {
     top: 107px;
     left: 0;
     bottom: 0;
-    right: 325px;
+    right: 0;
 }
 
 div.project-details .environment {
@@ -388,3 +388,79 @@ ul#projects-summary li {
     position: relative;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ *
+ *
+ * LOGIN PAGE STYLES
+ *
+ *
+ **/
+
+
+body.auth-login #feed {
+    display: none;
+}
+
+body.auth-login #app {
+    margin-right: 0;
+}
+
+body.auth-login #app h2 {
+    margin-top: 200px;
+    margin-bottom: 50px;
+    font-family: InterSemiBold;
+    color: #000000;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -1px;
+    line-height: 26px;
+}
+
+body.auth-login #app form {
+    margin: 0 auto;
+    width: 430px;
+}
+
+body.auth-login #app form input {
+    margin-top: 15px;
+    color: #666666;
+    background-color: #FFFFFF;
+}
+
+body.auth-login #app form input,
+body.auth-login #app form button {
+    font-family: InterRegular;
+    padding: 25px 20px;
+    border-width: 0;
+    border-radius: 5px;
+    box-shadow: 0 10px 60px -5px rgba(0,0,0,0.07);
+    font-size: 14px;
+    line-height: 16px;
+}
+
+body.auth-login #app form button {
+    width: 100%;
+    margin-top: 25px;
+    background-color: #000;
+    color: #FFF;
+}
+
+body.auth-login #app form a {
+    display: block;
+    text-align: center;
+}
