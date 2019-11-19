@@ -125,10 +125,18 @@
             var sectionTitle = $('<h3>').addClass('section-title').html('ANALYTICS');
             $(sectionTitle).appendTo(project);            
 
+            var projectAnalytics = createProjectAnalytics(item);
+            $(projectAnalytics).appendTo(project);
+
+            var environmentsWrapper = $('<div>')
+                .addClass('environments');
+
             var testEnv = createProjectEnvironment(item, 'test');
             var liveEnv = createProjectEnvironment(item, 'live');
-            $(testEnv).appendTo(project);
-            $(liveEnv).appendTo(project);
+            $(testEnv).appendTo(environmentsWrapper);
+            $(liveEnv).appendTo(environmentsWrapper);
+
+            $(environmentsWrapper).appendTo(project);
 
             $(project).appendTo('#projects-detailed');
         }
@@ -154,7 +162,16 @@
                 .data('projectid', item.id)
                 .data('url', item[environment_url]);
 
-            var title = $('<h4>').html(environment + ' : ' + item[environment_url]);
+            var environmentInner = $('<div>').addClass('environment-inner');
+            environmentInner.appendTo(wrapper);
+
+            var environmentExpand = $('<a>').attr('href', '#').addClass('environment-expand');
+            environmentExpand.appendTo(environmentInner);
+            environmentExpand.click(expandEnvironment);
+
+            var environmentTitle = $('<span>').html(environment);
+            var title = $('<h4>').html(item[environment_url]);
+            environmentTitle.prependTo(title);
             var version = $('<div>').addClass('project-info project-version');
             var db = $('<div>').addClass('project-info').addClass('project-db-snapshot-info');
             var media = $('<div>').addClass('project-info project-media-snapshot-info');
@@ -209,12 +226,210 @@
             updateTool.appendTo(actionsVersion);
 
 
-            title.appendTo(wrapper);
-            version.appendTo(wrapper);
-            db.appendTo(wrapper);
-            media.appendTo(wrapper);
+            title.appendTo(environmentInner);
+            version.appendTo(environmentInner);
+            db.appendTo(environmentInner);
+            media.appendTo(environmentInner);
 
             return wrapper;
+        }
+
+        function expandEnvironment() {
+            var environment = $(this).closest('.environment');
+
+            var isBeingExpanded = !environment.hasClass('environment-expanded');
+
+            var siblingEnvironment = environment.siblings('.environment');
+            
+            if (isBeingExpanded) {
+                environment.addClass('environment-expanded');
+                siblingEnvironment.addClass('hidden');
+            } else {
+                environment.removeClass('environment-expanded');
+                setTimeout(function (){ siblingEnvironment.removeClass('hidden') }, 600);
+            }
+        }
+
+        function createProjectAnalytics(item) {
+            console.debug('Adding ' + item.name + ' analytics');
+
+            var wrapper = $('<div>')
+                .addClass('graphs')
+                .data('projectid', item.id);
+
+            // create wrapper elements and add to page
+            var visitorGraphWrapperId = 'project-' + item.id + '-visitor-graph';
+            var bounceRateGraphWrapperId = 'project-' + item.id + '-bounce-graph';
+            var serverDowntimeGraphWrapperId = 'project-' + item.id + '-downtime-graph';
+
+            var visitorGraphWrapper = $('<div>').addClass('stats-graph').attr('id', visitorGraphWrapperId);
+            var bounceRateGraphWrapper = $('<div>').addClass('stats-graph').attr('id', bounceRateGraphWrapperId);
+            var serverDowntimeGraphWrapper = $('<div>').addClass('stats-graph').attr('id', serverDowntimeGraphWrapperId);
+
+            visitorGraphWrapper.appendTo(wrapper);
+            bounceRateGraphWrapper.appendTo(wrapper);
+            serverDowntimeGraphWrapper.appendTo(wrapper);
+
+            // get data for project
+            var visitorsData = [];
+            var bounceRateData = [];
+            var serverDowntimeData = [];
+
+            // initialise the graphs
+            // var visitorsGraph = initGraph(visitorsData, visitorGraphWrapper);
+            // var bounceRateGraph = initGraph(bounceRateData, bounceRateGraphWrapper);
+            // var serverDowntimeGraph = initGraph(serverDowntimeData, serverDowntimeGraphWrapper);
+
+
+            // var title = $('<h4>').html(environment + ' : ' + item[environment_url]);
+            // var version = $('<div>').addClass('project-info project-version');
+            // var db = $('<div>').addClass('project-info').addClass('project-db-snapshot-info');
+            // var media = $('<div>').addClass('project-info project-media-snapshot-info');
+
+            // var actionsVersion = $('<ul>').addClass('project-actions');
+            // var actionsDB = $('<ul>').addClass('project-actions');
+            // var actionsMedia = $('<ul>').addClass('project-actions');
+
+            // actionsVersion.appendTo(version);
+            // actionsDB.appendTo(db);
+            // actionsMedia.appendTo(media);
+
+            return wrapper;
+        }
+
+        function initGraph(data, wrapperElement, colourIndex) {
+            var fillColourOptions = [
+                ['#5187E0', '#FFF'],
+                ['#19FF00', '#FFF'],
+                ['#ED07FF', '#FFF']
+            ];
+
+            var lineColourOptions = [
+                ['#5997E6'],
+                ['#0ABE20'],
+                ['#B947C3']
+            ];
+
+            var fillColours = fillColourOptions[colourIndex];
+            var lineColour = lineColourOptions[colourIndex];
+
+            var options = {
+                chart: {
+                    height: 200,
+                    type: 'area',
+                    background: '#fff',
+                    zoom: {
+                        enabled: false
+                    },
+                    toolbar: {
+                        show: false,
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'smooth',
+                    width: 2,
+                    colors: lineColour
+                },
+                series: [{
+                    name: data.label,
+                    data: data.prices
+                }],
+                title: {
+                    text: 'Visitors',
+                    align: 'left',
+                    offsetX: 20,
+                    offsetY: 30,
+                    floating: true
+                },
+                subtitle: {
+                    text: '10,867',
+                    align: 'left',
+                    offsetX: 20,
+                    offsetY: 80,
+                    floating: true
+                },
+                xaxis: {
+                    // type: 'datetime',
+                    labels: { show: false },
+                    tooltip: { enabled: false },
+                    floating: true,
+                    axisTicks: {
+                        show: false
+                    },
+                    axisBorder: {
+                        show: false
+                    },
+                    labels: {
+                        show: false
+                    },
+                },
+                yaxis: {
+                    show: false,
+                    floating: true,
+                    axisTicks: {
+                        show: false
+                    },
+                    axisBorder: {
+                        show: false
+                    },
+                    labels: {
+                        show: false
+                    },
+                    // opposite: true
+                },
+                grid: {
+                    xaxis: {
+                        lines: {
+                            show: false,
+                        }
+                    },
+                    yaxis: {
+                        lines: {
+                            show: false,
+                        }
+                    },
+                    padding: {
+                        top: 0,
+                        right: 0,
+                        bottom: -10,
+                        left: 0
+                    }
+                },
+                legend: {
+                    // horizontalAlign: 'left'
+                    show: false
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                      type: "horizontal",
+                      colorStops: [
+                          [
+                            {
+                              offset: 0,
+                              color: fillColours[0],
+                              opacity: 0.12
+                            },
+                            {
+                              offset: 100,
+                              color: fillColours[1],
+                              opacity: 0.12
+                            }
+                          ]
+                      ]
+                    },
+                }
+            }
+
+            var chart = new ApexCharts(
+                wrapperElement,
+                options
+            );
+
+            chart.render();
         }
 
         function addMiniClickEvent(mini) {
@@ -224,10 +439,19 @@
                 var detailed = getDetailsByProject(projectid);
 
                 var projectTitle = $('span', this).html();
-                $('.navbar-title').addClass('navbar-project-open').html('<a href=#"></a>' + projectTitle);
+                $('.navbar-title').addClass('navbar-project-open').html('<a href="#"></a>' + projectTitle);
                 $('a', '.navbar-title').click(closeProjectDetails);
                 
                 $(detailed).show();
+
+                $('.graphs > div.stats-graph', detailed).each(function(item, el) {
+                    var length = $(el).children('.apexcharts-canvas').length;
+                    if (length == 0) {
+                        var data = getGraphDataForProject(projectid);
+
+                        initGraph(data, el, item);
+                    }
+                });
             });
         }
 
@@ -295,7 +519,7 @@
 
         function populateVersion() {
             var element = this;
-            var wrapper = $(element).parent();
+            var wrapper = $(element).closest('div.environment');
             var id = $(wrapper).data('projectid');
             var env = $(wrapper).data('environment');
 
@@ -316,7 +540,7 @@
 
         function populateDbSnapshotInfo() {
             var element = this;
-            var wrapper = $(element).parent();
+            var wrapper = $(element).closest('div.environment');
             var id = $(wrapper).data('projectid');
             var env = $(wrapper).data('environment');
 
@@ -333,7 +557,7 @@
 
         function populateMediaSnapshotInfo() {
             var element = this;
-            var wrapper = $(element).parent();
+            var wrapper = $(element).closest('div.environment');
             var id = $(wrapper).data('projectid');
             var env = $(wrapper).data('environment');
 
@@ -410,14 +634,14 @@
                 }
 
 
+                var item = $('<li>').addClass('project-file-info');
+                var itemTitle = $('<h5>').html(file.name.substr(file.name.lastIndexOf('/') + 1));
+                var itemPath = $('<h6>').html(file.name.substr(0, file.name.lastIndexOf('/') + 1));
 
-                var item = $('<li class="project-file-info">').html(
-                    '<h6>' + file.name.substr(0, file.name.lastIndexOf('/') + 1) + '</h6>' +
-                    '<h5>' + file.name.substr(file.name.lastIndexOf('/') + 1) + '</h5>'
-                );
-
-                $(fileSizeElement).appendTo(item);
+                $(itemTitle).appendTo(item);
                 $(fileDateElement).appendTo(item);
+                $(fileSizeElement).appendTo(item);
+                $(itemPath).appendTo(item);
                 $(item).appendTo(snapshots);
 
                 var notice = $('<div class="notice">');
@@ -427,7 +651,7 @@
                     notice.html(warnings.join(' and '));
                 } else {
                     $(item).addClass('status-ok');
-                    notice.html('Up to date');
+                    notice.html('');
                 }
 
                 $(notice).appendTo(item);
@@ -576,6 +800,18 @@
             $('.project-db-snapshot-info', projectsToRefresh).each(populateDbSnapshotInfo);
             $('.project-media-snapshot-info', projectsToRefresh).each(populateMediaSnapshotInfo);
         }
+
+        function getGraphDataForProject(projectid) {
+            switch(projectid) {
+                default:
+                    data = { label: 'Visitors', prices: [8100, 8150, 8400, 8500, 12000, 15000, 8000, 3000] }
+            }
+
+            return data;
+        }
+
+
+
 
         $(document).ready(function() {
             // refresh all projects when we load the page
