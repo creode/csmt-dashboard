@@ -246,7 +246,7 @@
                 siblingEnvironment.addClass('hidden');
             } else {
                 environment.removeClass('environment-expanded');
-                setTimeout(function (){ siblingEnvironment.removeClass('hidden') }, 600);
+                siblingEnvironment.removeClass('hidden');
             }
         }
 
@@ -335,17 +335,17 @@
                 },
                 series: [{
                     name: data.label,
-                    data: data.prices
+                    data: data.yaxisValues
                 }],
                 title: {
-                    text: 'Visitors',
+                    text: data.label,
                     align: 'left',
                     offsetX: 20,
                     offsetY: 30,
                     floating: true
                 },
                 subtitle: {
-                    text: '10,867',
+                    text: data.headlineFigure,
                     align: 'left',
                     offsetX: 20,
                     offsetY: 80,
@@ -353,6 +353,7 @@
                 },
                 xaxis: {
                     // type: 'datetime',
+                    categories: data.xaxisValues,
                     labels: { show: false },
                     tooltip: { enabled: false },
                     floating: true,
@@ -449,7 +450,7 @@
                     if (length == 0) {
                         var data = getGraphDataForProject(projectid);
 
-                        initGraph(data, el, item);
+                        initGraph(data[item], el, item);
                     }
                 });
             });
@@ -804,7 +805,26 @@
         function getGraphDataForProject(projectid) {
             switch(projectid) {
                 default:
-                    data = { label: 'Visitors', prices: [8100, 8150, 8400, 8500, 12000, 15000, 8000, 3000] }
+                    data = [
+                        { 
+                            label: 'Visitors',
+                            headlineFigure: '10,867',
+                            yaxisValues: [100,200,300,400,500,600,700],
+                            xaxisValues: ['Nov 1','Nov 2','Nov 3','Nov 4','Nov 5','Nov 6','Nov 7']
+                        },
+                        { 
+                            label: 'Errors',
+                            headlineFigure: '6',
+                            yaxisValues: [1,0,0,0,1,4,0],
+                            xaxisValues: ['Nov 1','Nov 2','Nov 3','Nov 4','Nov 5','Nov 6','Nov 7']
+                        },
+                        { 
+                            label: 'Newsletter Signups',
+                            headlineFigure: '29',
+                            yaxisValues: [10,11,1,1,1,5],
+                            xaxisValues: ['Nov 1','Nov 2','Nov 3','Nov 4','Nov 5','Nov 6','Nov 7']
+                        },
+                    ];
             }
 
             return data;
