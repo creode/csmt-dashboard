@@ -803,29 +803,61 @@
         }
 
         function getGraphDataForProject(projectid) {
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            var numberOfDates = 30;
+
+            var todaysDate = new Date();
+
+            var dates = [];
+
+            for(var i = numberOfDates - 1; i >= 0; i--) {
+                // we'll remove i days from current date
+                var newDate = new Date();
+                newDate.setDate(todaysDate.getDate() - i);
+
+                // now add date to array
+                dates.push( daysOfWeek[newDate.getDay()] + ' ' + newDate.getDate() + ' ' + months[newDate.getMonth()] );
+            }
+
             switch(projectid) {
                 default:
                     data = [
                         { 
                             label: 'Visitors',
-                            headlineFigure: '10,867',
-                            yaxisValues: [100,200,300,400,500,600,700],
-                            xaxisValues: ['Nov 1','Nov 2','Nov 3','Nov 4','Nov 5','Nov 6','Nov 7']
+                            headlineFigure: 'tbc',
+                            yaxisValues: [
+                                105,200,300,400,500,600,700,800,900,1000,
+                                100,200,300,400,500,600,700,800,900,1000,
+                                100,200,300,400,500,600,700,800,900,1000
+                            ],
+                            xaxisValues: dates
                         },
                         { 
-                            label: 'Errors',
+                            label: 'Bounce Rate %',
                             headlineFigure: '6',
-                            yaxisValues: [1,0,0,0,1,4,0],
-                            xaxisValues: ['Nov 1','Nov 2','Nov 3','Nov 4','Nov 5','Nov 6','Nov 7']
+                            yaxisValues: [
+                                '50%','45%','30%','40%','50%','60%','80%','90%','30%','33%',
+                                '77%','63%','34%','54%','21%','39%','38%','37%','35%','34%',
+                                '23%','22%','87%','45%','52%','12%','12%','15%','52%','99%'
+                            ],
+                            xaxisValues: dates
                         },
                         { 
-                            label: 'Newsletter Signups',
+                            label: 'Average CPU %',
                             headlineFigure: '29',
-                            yaxisValues: [10,11,1,1,1,5],
-                            xaxisValues: ['Nov 1','Nov 2','Nov 3','Nov 4','Nov 5','Nov 6','Nov 7']
+                            yaxisValues: [
+                                12, 40, 26, 36, 88, 54, 45, 55, 30, 10,
+                                12, 40, 26, 36, 88, 54, 45, 55, 30, 10,
+                                12, 40, 26, 36, 88, 54, 45, 55, 30, 10
+                            ],
+                            xaxisValues: dates
                         },
                     ];
             }
+
+            data[0].headlineFigure = data[0].yaxisValues.reduce((a, b) => a + b).toLocaleString();
 
             return data;
         }
