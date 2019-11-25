@@ -15,12 +15,16 @@
 Auth::routes();
 
 
-Route::get('/', function () {
-    return view('home');
-});
+View::composer('*', function($view){
+    $view_name = str_replace('.', '-', $view->getName());
+    View::share('view_name', $view_name);
+}); 
 
-Route::get('/home', 'HomeController@index')->name('home');
 
+Route::redirect('/', '/login');
+Route::redirect('/home', '/dashboard');
+
+// Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/dashboard', 'ProjectController@dashboard');
 Route::get('/project/add', 'ProjectController@add');
