@@ -549,6 +549,28 @@ div.graphs .resize-triggers {
 }
 
 
+div#projects-refresh {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+div#projects-refresh a {
+    display: block;
+    height: 50px;
+    width: 50px;
+    border-style: dotted;
+    border-color: #EEE;
+    border-width: 1px 0 0 1px;
+    text-decoration: none;
+}
+
+div#projects-refresh a:hover,
+div#projects-refresh a:active {
+    text-decoration: none;
+}
+
+
 
 
 
