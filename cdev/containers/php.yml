@@ -1,10 +1,13 @@
 active: true
 container_name: dashboard_php
+config-only:
+    relative_webroot_dir: public
 ports:
     - '3001:80'
 environment:
     VIRTUAL_HOST: .dashboard.docker
 volumes:
     - '../src:/var/www/html'
-image: 'creode/php-apache:7.0'
+    - '../config/apache:/etc/apache2/sites-available'
+image: 'creode/php-apache:7.2'
 links: {  }

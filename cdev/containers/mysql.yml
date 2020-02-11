@@ -11,4 +11,4 @@ environment:
 volumes:
     - '../db:/docker-entrypoint-initdb.d'
     - /var/lib/mysql
-image: 'creode/mysql:5.6'
+image: 'creode/mysql:5.7'

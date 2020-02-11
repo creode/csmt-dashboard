@@ -1,4 +1,4 @@
 version: '2'
 services:
-    mysql: { container_name: dashboard_mysql, restart: always, ports: ['4001:3306'], environment: { MYSQL_ROOT_PASSWORD: root, MYSQL_DATABASE: website, MYSQL_USER: webuser, MYSQL_PASSWORD: webpassword }, volumes: ['../db:/docker-entrypoint-initdb.d', /var/lib/mysql], image: 'creode/mysql:5.6' }
-    php: { container_name: dashboard_php, ports: ['3001:80'], environment: { VIRTUAL_HOST: .dashboard.docker }, volumes: ['../src:/var/www/html', '../cdev/config/apache:/etc/apache2/sites-available'], image: 'creode/php-apache:7.0', links: [mysql] }
+    mysql: { container_name: dashboard_mysql, restart: always, ports: ['4001:3306'], environment: { MYSQL_ROOT_PASSWORD: root, MYSQL_DATABASE: website, MYSQL_USER: webuser, MYSQL_PASSWORD: webpassword }, volumes: ['../db:/docker-entrypoint-initdb.d', /var/lib/mysql], image: 'creode/mysql:5.7' }
+    php: { container_name: dashboard_php, ports: ['3001:80'], environment: { VIRTUAL_HOST: .dashboard.docker }, volumes: ['../src:/var/www/html', '../config/apache:/etc/apache2/sites-available'], image: 'creode/php-apache:7.2', links: [mysql] }
